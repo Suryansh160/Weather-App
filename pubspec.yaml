@@ -1,16 +1,14 @@
-name: weather_app
-description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0
+name: weather_app  # Add your project name here
+description: A weather app built with Flutter.
 
 environment:
-  sdk: ^3.6.0
+  sdk: '>=3.6.0 <4.0.0'  # Ensure compatibility with Dart 3.6 and above
 
 dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.5
-  
+  video_player: ^2.8.2  # Replace with the latest version
 
 dev_dependencies:
   flutter_test:
@@ -20,4 +18,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-   - assets/bg.jpg
+    - assets/bg.jpg
+    - assets/vid.mp4

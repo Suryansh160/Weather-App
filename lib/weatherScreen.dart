@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+
 import './services/api_service.dart';
 
 class Weatherscreen extends StatefulWidget {
@@ -13,20 +15,31 @@ class Weatherscreen extends StatefulWidget {
 class _WeatherscreenState extends State<Weatherscreen> {
   List<dynamic>? fullResponse;
   bool isLoading = true;
+  late VideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
     fetchWeather();
+
+    _controller = VideoPlayerController.asset('assets/vid.mp4')
+      ..initialize().then((_) {
+        _controller.setLooping(true);
+        _controller.play();
+        setState(() {
+          (() {});
+        });
+      });
   }
 
-  String city = 'Lucknow';
+  String city = 'Indore';
   Future<void> fetchWeather() async {
     final data = await ApiService().fetchWeather(city);
     setState(() {
       fullResponse = data;
       isLoading = false;
     });
+    print(fullResponse![0]);
   }
 
   @override
@@ -49,7 +62,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
             padding: EdgeInsets.only(bottom: 5),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: fetchWeather,
             icon: Icon(Icons.refresh_outlined),
             color: Colors.white,
             padding: EdgeInsets.only(bottom: 5),
@@ -59,10 +72,11 @@ class _WeatherscreenState extends State<Weatherscreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            "assets/bg.jpg",
-            fit: BoxFit.cover,
-          ),
+          if (_controller.value.isInitialized)
+            AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
+            ),
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -217,6 +231,189 @@ class _WeatherscreenState extends State<Weatherscreen> {
                             Text(
                                 '${fullResponse != null ? fullResponse![0]['visibility'] : 'N/A'}',
                                 style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight * 0.25,
+                  child: ListView(
+                    children: [
+                      ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![0]['dt_txt'])
+                                          .day
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white)),
+                              TextSpan(
+                                  text: ' / ',
+                                  style: TextStyle(color: Colors.grey)),
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![0]['dt_txt'])
+                                          .month
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white))
+                            ])),
+                            Icon(
+                              Icons.wb_sunny_outlined,
+                              color: Colors.yellow,
+                            ),
+                            Text(
+                                style: TextStyle(color: Colors.white),
+                                '${fullResponse != null ? fullResponse![0]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![0]['main']['temp_max'] : 'N/A'}'}')
+                          ],
+                        ),
+                      ),
+                      ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![6]['dt_txt'])
+                                          .day
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white)),
+                              TextSpan(
+                                  text: ' / ',
+                                  style: TextStyle(color: Colors.grey)),
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![6]['dt_txt'])
+                                          .month
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white))
+                            ])),
+                            Icon(
+                              Icons.wb_sunny_outlined,
+                              color: Colors.yellow,
+                            ),
+                            Text(
+                                style: TextStyle(color: Colors.white),
+                                '${fullResponse != null ? fullResponse![6]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![6]['main']['temp_max'] : 'N/A'}'}')
+                          ],
+                        ),
+                      ),
+                      ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![12]['dt_txt'])
+                                          .day
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white)),
+                              TextSpan(
+                                  text: ' / ',
+                                  style: TextStyle(color: Colors.grey)),
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![12]['dt_txt'])
+                                          .month
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white))
+                            ])),
+                            Icon(
+                              Icons.wb_sunny_outlined,
+                              color: Colors.yellow,
+                            ),
+                            Text(
+                                style: TextStyle(color: Colors.white),
+                                '${fullResponse != null ? fullResponse![12]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![12]['main']['temp_max'] : 'N/A'}'}')
+                          ],
+                        ),
+                      ),
+                      ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![18]['dt_txt'])
+                                          .day
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white)),
+                              TextSpan(
+                                  text: ' / ',
+                                  style: TextStyle(color: Colors.grey)),
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![18]['dt_txt'])
+                                          .month
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white))
+                            ])),
+                            Icon(
+                              Icons.wb_sunny_outlined,
+                              color: Colors.yellow,
+                            ),
+                            Text(
+                                style: TextStyle(color: Colors.white),
+                                '${fullResponse != null ? fullResponse![18]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![18]['main']['temp_max'] : 'N/A'}'}')
+                          ],
+                        ),
+                      ),
+                      ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![24]['dt_txt'])
+                                          .day
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white)),
+                              TextSpan(
+                                  text: ' / ',
+                                  style: TextStyle(color: Colors.grey)),
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![39]['dt_txt'])
+                                          .month
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(color: Colors.white))
+                            ])),
+                            Icon(
+                              Icons.wb_sunny_outlined,
+                              color: Colors.yellow,
+                            ),
+                            Text(
+                              '${fullResponse != null ? fullResponse![26]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![26]['main']['temp_max'] : 'N/A'}'}',
+                              style: TextStyle(color: Colors.white),
+                            )
                           ],
                         ),
                       )
