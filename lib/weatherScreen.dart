@@ -56,8 +56,40 @@ class _WeatherscreenState extends State<Weatherscreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.list),
+            onPressed: () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (context) {
+                  return Container(
+                    width: screenHeight * 0.4,
+                    height: screenHeight * 0.5,
+                    child: TextField(
+                      style: TextStyle(color: Colors.white),
+                      onChanged: (value) => setState(() {
+                        city = value;
+                      }),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey)),
+                          focusColor: Colors.grey,
+                          prefixIcon: Icon(
+                            Icons.location_city,
+                            color: Colors.white,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.3),
+                          labelText: 'Enter city',
+                          labelStyle: TextStyle(color: Colors.white)),
+                    ), // Optional: Set a height
+                  );
+                },
+              );
+              fetchWeather();
+            },
+            icon: Icon(Icons.search_sharp),
             color: Colors.white,
             padding: EdgeInsets.only(bottom: 5),
           ),
@@ -72,18 +104,9 @@ class _WeatherscreenState extends State<Weatherscreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          if (_controller.value.isInitialized)
-            AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            ),
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                  // color: Colors.black.withOpacity(0.2),
-                  ),
-            ),
+          Image.asset(
+            'assets/bg.jpg',
+            fit: BoxFit.cover,
           ),
           SingleChildScrollView(
             child: Column(
@@ -91,6 +114,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                 Padding(padding: EdgeInsets.only(top: screenHeight * 0.17)),
                 Center(
                   child: Text(
+                    textAlign: TextAlign.center,
                     "${fullResponse != null ? fullResponse![0]['main']['temp'].toInt().toString() : 'N/A'}°",
                     style: TextStyle(
                         fontSize: screenHeight * 0.1,
@@ -103,27 +127,27 @@ class _WeatherscreenState extends State<Weatherscreen> {
                   children: <Widget>[
                     Text(
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w400),
-                        "${fullResponse != null ? fullResponse![0]['weather'][0]['main'] : 'N/A'} ${fullResponse != null ? fullResponse![0]['main']['temp_min'] : 'N/A'}° / ${fullResponse != null ? fullResponse![0]['main']['temp_max'] : 'N/A'}° Humidity ${fullResponse != null ? fullResponse![0]['main']['humidity'] : 'N/A'}"),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15),
+                        textAlign: TextAlign.center,
+                        "${fullResponse != null ? fullResponse![0]['weather'][0]['main'] : 'N/A'} \n${fullResponse != null ? fullResponse![0]['main']['temp_min'] : 'N/A'}° / ${fullResponse != null ? fullResponse![0]['main']['temp_max'] : 'N/A'}°"),
                   ],
                 ),
-                SizedBox(
-                  height: screenHeight * 0.00005,
-                ),
                 Container(
-                  height: screenHeight * 0.4,
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  height: screenHeight * 0.36,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                   child: GridView.count(
+                    physics: NeverScrollableScrollPhysics(),
                     childAspectRatio: 1.3,
                     crossAxisCount: 3,
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 10,
                     children: [
                       Container(
-                        // height: screenHeight * 0.08,
                         decoration: BoxDecoration(
                           color: Colors.white
-                              .withOpacity(0.3), // Transparent background
+                              .withOpacity(0.2), // Transparent background
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -141,7 +165,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white
-                              .withOpacity(0.3), // Transparent background
+                              .withOpacity(0.2), // Transparent background
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -159,7 +183,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white
-                              .withOpacity(0.3), // Transparent background
+                              .withOpacity(0.2), // Transparent background
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -178,7 +202,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white
-                              .withOpacity(0.3), // Transparent background
+                              .withOpacity(0.2), // Transparent background
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -196,7 +220,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white
-                              .withOpacity(0.3), // Transparent background
+                              .withOpacity(0.2), // Transparent background
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -214,7 +238,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                       Container(
                         decoration: BoxDecoration(
                           color: Colors.white
-                              .withOpacity(0.3), // Transparent background
+                              .withOpacity(0.2), // Transparent background
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -237,9 +261,25 @@ class _WeatherscreenState extends State<Weatherscreen> {
                     ],
                   ),
                 ),
+                Text(
+                  '5 Days Forecast',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: Colors.white, fontSize: screenHeight * 0.025),
+                ),
                 SizedBox(
+                  height: 10,
+                ),
+                Container(
                   height: screenHeight * 0.25,
+                  width: screenHeight * 0.45,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white.withOpacity(0.25),
+                      border: Border.all(
+                          width: 1, color: Colors.black.withOpacity(0.5))),
                   child: ListView(
+                    shrinkWrap: true,
                     children: [
                       ListTile(
                         title: Row(
@@ -276,6 +316,9 @@ class _WeatherscreenState extends State<Weatherscreen> {
                           ],
                         ),
                       ),
+                      Divider(
+                        color: Colors.black,
+                      ),
                       ListTile(
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -310,6 +353,9 @@ class _WeatherscreenState extends State<Weatherscreen> {
                                 '${fullResponse != null ? fullResponse![6]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![6]['main']['temp_max'] : 'N/A'}'}')
                           ],
                         ),
+                      ),
+                      Divider(
+                        color: Colors.black,
                       ),
                       ListTile(
                         title: Row(
@@ -346,6 +392,9 @@ class _WeatherscreenState extends State<Weatherscreen> {
                           ],
                         ),
                       ),
+                      Divider(
+                        color: Colors.black,
+                      ),
                       ListTile(
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -380,6 +429,9 @@ class _WeatherscreenState extends State<Weatherscreen> {
                                 '${fullResponse != null ? fullResponse![18]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![18]['main']['temp_max'] : 'N/A'}'}')
                           ],
                         ),
+                      ),
+                      Divider(
+                        color: Colors.black,
                       ),
                       ListTile(
                         title: Row(
