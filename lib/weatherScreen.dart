@@ -111,13 +111,13 @@ class _WeatherscreenState extends State<Weatherscreen> {
           SingleChildScrollView(
             child: Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: screenHeight * 0.17)),
+                Padding(padding: EdgeInsets.only(top: screenHeight * 0.15)),
                 Center(
                   child: Text(
                     textAlign: TextAlign.center,
                     "${fullResponse != null ? fullResponse![0]['main']['temp'].toInt().toString() : 'N/A'}°",
                     style: TextStyle(
-                        fontSize: screenHeight * 0.1,
+                        fontSize: screenHeight * 0.13,
                         color: Colors.white,
                         fontWeight: FontWeight.w500),
                   ),
@@ -129,7 +129,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
-                            fontSize: 15),
+                            fontSize: screenHeight * 0.0215),
                         textAlign: TextAlign.center,
                         "${fullResponse != null ? fullResponse![0]['weather'][0]['main'] : 'N/A'} \n${fullResponse != null ? fullResponse![0]['main']['temp_min'] : 'N/A'}° / ${fullResponse != null ? fullResponse![0]['main']['temp_max'] : 'N/A'}°"),
                   ],
@@ -155,10 +155,14 @@ class _WeatherscreenState extends State<Weatherscreen> {
                           children: <Widget>[
                             Icon(Icons.water, color: Colors.white),
                             Text('Sea Level',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: screenHeight * 0.018)),
                             Text(
                                 '${fullResponse != null ? fullResponse![0]['main']['sea_level'] : 'N/A'}',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: screenHeight * 0.02)),
                           ],
                         ),
                       ),
@@ -173,10 +177,14 @@ class _WeatherscreenState extends State<Weatherscreen> {
                           children: <Widget>[
                             Icon(Icons.thermostat, color: Colors.white),
                             Text('Feels Like',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: screenHeight * 0.018)),
                             Text(
                                 '${fullResponse != null ? fullResponse![0]['main']['feels_like'] : 'N/A'} °',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: screenHeight * 0.02)),
                           ],
                         ),
                       ),
@@ -192,9 +200,13 @@ class _WeatherscreenState extends State<Weatherscreen> {
                             Icon(Icons.water_drop_outlined,
                                 color: Colors.white),
                             Text('Humidity',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: screenHeight * 0.018)),
                             Text(
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: screenHeight * 0.02),
                                 '${fullResponse != null ? fullResponse![0]['main']['humidity'] : 'N/A'}'),
                           ],
                         ),
@@ -210,10 +222,14 @@ class _WeatherscreenState extends State<Weatherscreen> {
                           children: <Widget>[
                             Icon(Icons.air, color: Colors.white),
                             Text('WNW wind',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: screenHeight * 0.018)),
                             Text(
                                 '${fullResponse != null ? fullResponse![0]['wind']['speed'] : 'N/A'} mph',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: screenHeight * 0.02)),
                           ],
                         ),
                       ),
@@ -228,9 +244,13 @@ class _WeatherscreenState extends State<Weatherscreen> {
                           children: <Widget>[
                             Icon(Icons.compress, color: Colors.white),
                             Text('Air pressure',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: screenHeight * 0.018)),
                             Text(
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: screenHeight * 0.02),
                                 '${fullResponse != null ? fullResponse![0]['main']['pressure'] : 'N/A'} hPa'),
                           ],
                         ),
@@ -250,25 +270,33 @@ class _WeatherscreenState extends State<Weatherscreen> {
                             ),
                             Text(
                               'Visibility',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: screenHeight * 0.018),
                             ),
                             Text(
                                 '${fullResponse != null ? fullResponse![0]['visibility'] : 'N/A'}',
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: screenHeight * 0.02)),
                           ],
                         ),
                       )
                     ],
                   ),
                 ),
-                Text(
-                  '5 Days Forecast',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      color: Colors.white, fontSize: screenHeight * 0.025),
-                ),
                 SizedBox(
                   height: 10,
+                ),
+                Text(
+                  '5-day weather Forecast',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 214, 214, 211),
+                      fontSize: screenHeight * 0.023),
+                ),
+                SizedBox(
+                  height: 12,
                 ),
                 Container(
                   height: screenHeight * 0.25,
@@ -279,47 +307,11 @@ class _WeatherscreenState extends State<Weatherscreen> {
                       border: Border.all(
                           width: 1, color: Colors.black.withOpacity(0.5))),
                   child: ListView(
+                    padding: EdgeInsets.all(0),
                     shrinkWrap: true,
                     children: [
                       ListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text.rich(TextSpan(children: [
-                              TextSpan(
-                                  text: fullResponse != null
-                                      ? DateTime.parse(
-                                              fullResponse![0]['dt_txt'])
-                                          .day
-                                          .toString()
-                                      : 'N/A',
-                                  style: TextStyle(color: Colors.white)),
-                              TextSpan(
-                                  text: ' / ',
-                                  style: TextStyle(color: Colors.grey)),
-                              TextSpan(
-                                  text: fullResponse != null
-                                      ? DateTime.parse(
-                                              fullResponse![0]['dt_txt'])
-                                          .month
-                                          .toString()
-                                      : 'N/A',
-                                  style: TextStyle(color: Colors.white))
-                            ])),
-                            Icon(
-                              Icons.wb_sunny_outlined,
-                              color: Colors.yellow,
-                            ),
-                            Text(
-                                style: TextStyle(color: Colors.white),
-                                '${fullResponse != null ? fullResponse![0]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![0]['main']['temp_max'] : 'N/A'}'}')
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      ListTile(
+                        visualDensity: VisualDensity(vertical: -3),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -331,7 +323,10 @@ class _WeatherscreenState extends State<Weatherscreen> {
                                           .day
                                           .toString()
                                       : 'N/A',
-                                  style: TextStyle(color: Colors.white)),
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white)),
                               TextSpan(
                                   text: ' / ',
                                   style: TextStyle(color: Colors.grey)),
@@ -342,14 +337,20 @@ class _WeatherscreenState extends State<Weatherscreen> {
                                           .month
                                           .toString()
                                       : 'N/A',
-                                  style: TextStyle(color: Colors.white))
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white))
                             ])),
                             Icon(
                               Icons.wb_sunny_outlined,
                               color: Colors.yellow,
                             ),
                             Text(
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: screenHeight * 0.02,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
                                 '${fullResponse != null ? fullResponse![6]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![6]['main']['temp_max'] : 'N/A'}'}')
                           ],
                         ),
@@ -358,6 +359,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                         color: Colors.black,
                       ),
                       ListTile(
+                        visualDensity: VisualDensity(vertical: -3),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -369,10 +371,16 @@ class _WeatherscreenState extends State<Weatherscreen> {
                                           .day
                                           .toString()
                                       : 'N/A',
-                                  style: TextStyle(color: Colors.white)),
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white)),
                               TextSpan(
                                   text: ' / ',
-                                  style: TextStyle(color: Colors.grey)),
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey)),
                               TextSpan(
                                   text: fullResponse != null
                                       ? DateTime.parse(
@@ -380,14 +388,20 @@ class _WeatherscreenState extends State<Weatherscreen> {
                                           .month
                                           .toString()
                                       : 'N/A',
-                                  style: TextStyle(color: Colors.white))
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white))
                             ])),
                             Icon(
                               Icons.wb_sunny_outlined,
                               color: Colors.yellow,
                             ),
                             Text(
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: screenHeight * 0.02,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
                                 '${fullResponse != null ? fullResponse![12]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![12]['main']['temp_max'] : 'N/A'}'}')
                           ],
                         ),
@@ -396,6 +410,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                         color: Colors.black,
                       ),
                       ListTile(
+                        visualDensity: VisualDensity(vertical: -3),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -407,10 +422,16 @@ class _WeatherscreenState extends State<Weatherscreen> {
                                           .day
                                           .toString()
                                       : 'N/A',
-                                  style: TextStyle(color: Colors.white)),
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white)),
                               TextSpan(
                                   text: ' / ',
-                                  style: TextStyle(color: Colors.grey)),
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey)),
                               TextSpan(
                                   text: fullResponse != null
                                       ? DateTime.parse(
@@ -418,14 +439,20 @@ class _WeatherscreenState extends State<Weatherscreen> {
                                           .month
                                           .toString()
                                       : 'N/A',
-                                  style: TextStyle(color: Colors.white))
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white))
                             ])),
                             Icon(
                               Icons.wb_sunny_outlined,
                               color: Colors.yellow,
                             ),
                             Text(
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: screenHeight * 0.02,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
                                 '${fullResponse != null ? fullResponse![18]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![18]['main']['temp_max'] : 'N/A'}'}')
                           ],
                         ),
@@ -434,6 +461,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                         color: Colors.black,
                       ),
                       ListTile(
+                        visualDensity: VisualDensity(vertical: -3),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -441,30 +469,91 @@ class _WeatherscreenState extends State<Weatherscreen> {
                               TextSpan(
                                   text: fullResponse != null
                                       ? DateTime.parse(
-                                              fullResponse![24]['dt_txt'])
+                                              fullResponse![30]['dt_txt'])
                                           .day
                                           .toString()
                                       : 'N/A',
-                                  style: TextStyle(color: Colors.white)),
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white)),
                               TextSpan(
                                   text: ' / ',
                                   style: TextStyle(color: Colors.grey)),
                               TextSpan(
                                   text: fullResponse != null
                                       ? DateTime.parse(
-                                              fullResponse![39]['dt_txt'])
+                                              fullResponse![30]['dt_txt'])
                                           .month
                                           .toString()
                                       : 'N/A',
-                                  style: TextStyle(color: Colors.white))
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white))
                             ])),
                             Icon(
                               Icons.wb_sunny_outlined,
                               color: Colors.yellow,
                             ),
                             Text(
-                              '${fullResponse != null ? fullResponse![26]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![26]['main']['temp_max'] : 'N/A'}'}',
-                              style: TextStyle(color: Colors.white),
+                              '${fullResponse != null ? fullResponse![30]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![30]['main']['temp_max'] : 'N/A'}'}',
+                              style: TextStyle(
+                                  fontSize: screenHeight * 0.02,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        visualDensity: VisualDensity(vertical: -3),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text.rich(TextSpan(children: [
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![35]['dt_txt'])
+                                          .day
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white)),
+                              TextSpan(
+                                  text: ' / ',
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey)),
+                              TextSpan(
+                                  text: fullResponse != null
+                                      ? DateTime.parse(
+                                              fullResponse![35]['dt_txt'])
+                                          .month
+                                          .toString()
+                                      : 'N/A',
+                                  style: TextStyle(
+                                      fontSize: screenHeight * 0.02,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white))
+                            ])),
+                            Icon(
+                              Icons.wb_sunny_outlined,
+                              color: Colors.yellow,
+                            ),
+                            Text(
+                              '${fullResponse != null ? fullResponse![35]['main']['temp_min'] : 'N/A'} / ${'${fullResponse != null ? fullResponse![35]['main']['temp_max'] : 'N/A'}'}',
+                              style: TextStyle(
+                                  fontSize: screenHeight * 0.02,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
                             )
                           ],
                         ),
