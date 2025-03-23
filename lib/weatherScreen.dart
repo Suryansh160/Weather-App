@@ -286,7 +286,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Text(
                   '5-day weather Forecast',
@@ -296,7 +296,7 @@ class _WeatherscreenState extends State<Weatherscreen> {
                       fontSize: screenHeight * 0.023),
                 ),
                 SizedBox(
-                  height: 12,
+                  height: 15,
                 ),
                 Container(
                   height: screenHeight * 0.25,
